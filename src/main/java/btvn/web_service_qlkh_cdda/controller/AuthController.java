@@ -10,6 +10,7 @@ import btvn.web_service_qlkh_cdda.repository.TokenBlacklistRepository;
 import btvn.web_service_qlkh_cdda.service.RefreshTokenService;
 import btvn.web_service_qlkh_cdda.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,13 +30,13 @@ public class AuthController {
     private final TokenBlacklistRepository tokenBlacklistRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<ApiDataResonse<JWTResponse>> login(@RequestBody UserLogin userLogin) {
+    public ResponseEntity<ApiDataResonse<JWTResponse>> login(@Valid @RequestBody UserLogin userLogin) {
         JWTResponse response = userService.login(userLogin);
         return ResponseEntity.ok(new ApiDataResonse<>(true, "Đăng nhập thành công", response, null, HttpStatus.OK));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiDataResonse<?>> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<ApiDataResonse<?>> register(@Valid @RequestBody UserDTO userDTO) {
         userService.registerUser(userDTO);
         return new ResponseEntity<>(new ApiDataResonse<>(true, "Đăng ký tài khoản Sinh viên thành công", null, null, HttpStatus.CREATED), HttpStatus.CREATED);
     }
@@ -46,7 +47,6 @@ public class AuthController {
         return ResponseEntity.ok(new ApiDataResonse<>(true, "Làm mới token thành công", response, null, HttpStatus.OK));
     }
 
-    // ĐÃ FIX: Thu hồi Token vào danh sách đen (FR-03)
     @PostMapping("/logout")
     public ResponseEntity<ApiDataResonse<?>> logout(HttpServletRequest request) {
         String token = getTokenFromRequest(request);
@@ -60,7 +60,6 @@ public class AuthController {
         return ResponseEntity.ok(new ApiDataResonse<>(true, "Đăng xuất và thu hồi Token thành công", null, null, HttpStatus.OK));
     }
 
-    // ĐÃ THÊM: Đổi mật khẩu cho người dùng đã xác thực (FR-10)
     @PostMapping("/change-password")
     public ResponseEntity<ApiDataResonse<?>> changePassword(@RequestBody Map<String, String> request, Authentication authentication) {
         userService.changePassword(authentication.getName(), request.get("oldPassword"), request.get("newPassword"));
