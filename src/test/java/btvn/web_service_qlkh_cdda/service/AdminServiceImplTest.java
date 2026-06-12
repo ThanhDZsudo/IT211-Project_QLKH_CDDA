@@ -4,7 +4,7 @@ import btvn.web_service_qlkh_cdda.model.entity.Course;
 import btvn.web_service_qlkh_cdda.repository.CourseRepository;
 import btvn.web_service_qlkh_cdda.service.impl.AdminServiceImpl;
 import org.junit.jupiter.api.Test;
-import org.junitjupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
