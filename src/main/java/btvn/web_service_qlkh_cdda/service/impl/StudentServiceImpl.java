@@ -8,10 +8,13 @@ import btvn.web_service_qlkh_cdda.repository.CourseRepository;
 import btvn.web_service_qlkh_cdda.repository.EnrollmentRepository;
 import btvn.web_service_qlkh_cdda.repository.SubmissionRepository;
 import btvn.web_service_qlkh_cdda.repository.UserRepository;
+import btvn.web_service_qlkh_cdda.service.CloudinaryService;
 import btvn.web_service_qlkh_cdda.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -24,6 +27,7 @@ public class StudentServiceImpl implements StudentService {
     private final CourseRepository courseRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final SubmissionRepository submissionRepository;
+    private final CloudinaryService cloudinaryService;
 
     @Override
     @Transactional
@@ -56,6 +60,23 @@ public class StudentServiceImpl implements StudentService {
         Submission submission = Submission.builder()
                 .enrollment(Enrollment.builder().id(enrollmentId).build())
                 .githubUrl(payload.get("githubUrl"))
+                .status("SUBMITTED")
+                .build();
+
+        return submissionRepository.save(submission);
+    }
+
+    @Override
+    @Transactional
+    public Submission uploadReport(Long enrollmentId, MultipartFile file) {
+        enrollmentRepository.findById(enrollmentId)
+                .orElseThrow(() -> new RuntimeException("Đăng ký khóa học không tồn tại hoặc không hợp lệ"));
+
+        String reportUrl = cloudinaryService.uploadFile(file);
+
+        Submission submission = Submission.builder()
+                .enrollment(Enrollment.builder().id(enrollmentId).build())
+                .reportUrl(reportUrl)
                 .status("SUBMITTED")
                 .build();
 

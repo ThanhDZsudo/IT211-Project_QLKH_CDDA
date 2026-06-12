@@ -23,9 +23,4 @@ public class RefreshToken {
     private String username;
     private Instant expiryDate;
     private boolean revoked;
-
-    // THÊM THỦ CÔNG HÀM NÀY VÀO ĐỂ INTELLIJ HẾT BÁO ĐỎ
-    public String getToken() {
-        return this.token;
-    }
 }

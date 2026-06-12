@@ -9,7 +9,6 @@ group = 'btvn'
 version = '0.0.1-SNAPSHOT'
 description = 'web_service_QLKH_CDDA'
 
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -29,27 +28,26 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testCompileOnly 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testAnnotationProcessor 'org.projectlombok:lombok'
-    // Source: https://mvnrepository.com/artifact/org.mindrot/jbcrypt
-    implementation("org.mindrot:jbcrypt:0.4")
-    // Source: https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
-    implementation("io.jsonwebtoken:jjwt-api:0.13.0")
-    // Source: https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
-    // Source: https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
-    // Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    // JWT
+    implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
+
+    // BCrypt
+    implementation("org.mindrot:jbcrypt:0.4")
+
+    // Cloudinary SDK - UC-05: Upload file lên đám mây
+    implementation 'com.cloudinary:cloudinary-http44:1.36.0'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
-
