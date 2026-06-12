@@ -20,7 +20,7 @@ public class UserDTO {
     private String username;
 
     @NotBlank(message = "Mật khẩu không được để trống")
-    @Size(min = 3, message = "Mật khẩu phải từ 3 ký tự trở lên")
+    @Size(min = 5, message = "Mật khẩu phải từ 5 ký tự trở lên")
     private String password;
 
     @NotBlank(message = "Họ tên không được để trống")
